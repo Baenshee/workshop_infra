@@ -13,6 +13,10 @@
       "description": "Check API is up"
     },
     {
+      "name": "stats",
+      "description": "Access to stats²"
+    },
+    {
       "name": "logs",
       "description": "Access to logs"
     },
@@ -37,6 +41,29 @@
         "summary": "Check availability",
         "description": "",
         "operationId": "healthcheck",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/stats": {
+      "get": {
+        "tags": [
+          "stats"
+        ],
+        "summary": "Get stats",
+        "description": "",
+        "operationId": "get_stats",
         "consumes": [
           "application/json",
           "application/xml"
