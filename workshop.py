@@ -5,8 +5,10 @@ import sched, time,  threading
 s = sched.scheduler(time.time, time.sleep)
 db_address = 'C:/Users/baens/PycharmProjects/workshop/test.db'
 logfile_location = 'C:/Users/baens/PycharmProjects/workshop/test.log'
+default_number_of_lines = 10
+interval = 5
 connection = sqlite3.connect(db_address, check_same_thread=False)
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="")
 connection.cursor().execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER PRIMARY KEY AUTOINCREMENT, CPU VARCHAR(255), RAM VARCHAR(255))")
 
 
@@ -18,10 +20,10 @@ def do_something():
         ram = str(psutil.virtual_memory())
         c.execute("INSERT into stats (cpu, ram) VALUES (?, ?)", (cpu, ram))
         connection.commit()
-        time.sleep(5)
+        time.sleep(interval)
 
 
-threading.Timer(5,do_something).start()
+threading.Timer(0,do_something).start()
 
 
 def tail(f, n, offset=0):
@@ -55,10 +57,21 @@ def healthcheck():
     return resp
 
 
-@app.route('/log', methods=["GET"])
+@app.route('/logs', methods=["GET"])
 def get_log():
-    return json.jsonify(tail(open(logfile_location,'r'),5))
+    return json.jsonify(tail(open(logfile_location,'r'),default_number_of_lines))
 
+@app.route('/logs/<n>', methods=["GET"])
+def get_nlogs(n):
+    return json.jsonify(tail(open(logfile_location,'r'),int(n)))
+
+@app.route('/stats', methods=["GET"])
+def get_stats():
+    c = connection.cursor()
+    c.execute('Select * from stats')
+    res = c.fetchall()
+    resp = make_response(json.jsonify(res))
+    return resp
 
 @app.route('/blacklist/<id>', methods=["GET"])
 def get_blacklist_with_id(id):
@@ -150,3 +163,5 @@ def remove_whitelist_by_id(id):
 
 if __name__ == '__main__':
     app.run()
+
+
