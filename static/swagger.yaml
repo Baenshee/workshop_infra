@@ -1,0 +1,270 @@
+swagger: "2.0"
+info:
+  description: "Simple testing UI for python API"
+  version: "1.0.0"
+  title: "Swagger Python"
+host: "localhost:5000"
+basePath: "/"
+tags:
+- name: "Healthcheck"
+  description: "Check API is up"
+- name: "logs"
+  description: "Access to logs"
+- name: "blacklist"
+  description: "Operations about blacklist ips"
+- name: "whitelist"
+  description: "Operations about whitelist ips"
+schemes:
+- "http"
+paths:
+  /healthcheck:
+    get:
+      tags:
+      - "Healthcheck"
+      summary: "Check availability"
+      description: ""
+      operationId: "healthcheck"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+  /logs:
+    get:
+      tags:
+      - "logs"
+      summary: "Get logs"
+      description: ""
+      operationId: "get_logs"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+  /logs/{n}:
+    get:
+      tags:
+      - "logs"
+      summary: "Get last n logs"
+      description: ""
+      operationId: "get_nlogs"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: path
+          name: n
+          type: integer
+          required: true
+          description: Number of lines to get
+        
+      responses:
+        200:
+          description: "OK"
+  /blacklist:
+    get:
+      tags:
+      - "blacklist"
+      summary: "Get blacklist"
+      description: ""
+      operationId: "get_bl"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+    post:
+      tags:
+      - "blacklist"
+      summary: "add blacklist"
+      description: ""
+      operationId: "add_bl"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: body
+          name: ip
+          schema:
+            type: object
+            required:
+              - ip
+            properties:
+              ip:
+                type: string
+          description: ip to blacklist
+      responses:
+        200:
+          description: "OK"
+  /blacklist/{id}:
+    get:
+      tags:
+      - "blacklist"
+      summary: "Get blacklist with id"
+      description: ""
+      operationId: "get_bl_id"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: id of blacklisted ip to get
+      responses:
+        200:
+          description: "OK"
+    delete:
+      tags:
+      - "blacklist"
+      summary: "Get last blacklist with id"
+      description: ""
+      operationId: "delete_bl_id"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: id of blacklist to delete
+          
+      responses:
+        200:
+          description: "OK"
+          
+  /whitelist:
+    get:
+      tags:
+      - "whitelist"
+      summary: "Get whitelist"
+      description: ""
+      operationId: "get_wl"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+    post:
+      tags:
+      - "whitelist"
+      summary: "add whitelist"
+      description: ""
+      operationId: "add_wl"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: body
+          name: ip
+          schema:
+            type: object
+            required:
+              - ip
+            properties:
+              ip:
+                type: string
+          description: ip to whitelist
+      responses:
+        200:
+          description: "OK"
+  /whitelist/{id}:
+    get:
+      tags:
+      - "whitelist"
+      summary: "Get whitelist with id"
+      description: ""
+      operationId: "get_wl_id"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: id of whitelisted ip to get
+      responses:
+        200:
+          description: "OK"
+    delete:
+      tags:
+      - "whitelist"
+      summary: "Get last whitelist with id"
+      description: ""
+      operationId: "delete_wl_id"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: id of whitelist to delete
+          
+      responses:
+        200:
+          description: "OK"
+          
+          
+#  /machin:
+  #  get:
+ #     tags:
+ #     - ""
+#      summary: "Add a new pet to the store"
+#      description: ""
+#      operationId: "addPet"
+ #     consumes:
+ #     - "application/json"
+ #     - "application/xml"
+ #     produces:
+ #     - "application/xml"
+#      - "application/json"
+#      parameters:
+#      - in: "body"
+ #       name: "body"
+ #       description: "Pet object that needs to be added to the store"
+ #       required: true
+ #     responses:
+ #       405:
+ #         description: "Invalid input"
