@@ -12,7 +12,7 @@ app = Flask(__name__, static_url_path="")
 connection.cursor().execute("CREATE TABLE IF NOT EXISTS stats (id INTEGER PRIMARY KEY AUTOINCREMENT, CPU VARCHAR(255), RAM VARCHAR(255))")
 
 
-def do_something():
+def set_stats():
     c = connection.cursor()
     while (True):
         print(time.ctime())
@@ -23,7 +23,7 @@ def do_something():
         time.sleep(interval)
 
 
-threading.Timer(0,do_something).start()
+threading.Timer(0,set_stats).start()
 
 
 def tail(f, n, offset=0):
